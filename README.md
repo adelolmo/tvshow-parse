@@ -5,6 +5,10 @@ Parse tv show filenames
 
 ## Setup repository
 
+```
+sudo apt-get install apt-transport-https
+```
+
 For amd64:
 ```
 wget -O - http://adelolmo.github.io/andoni.delolmo@gmail.com.gpg.key | sudo apt-key add -
