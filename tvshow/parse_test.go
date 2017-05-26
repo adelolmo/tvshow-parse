@@ -20,6 +20,14 @@ func TestOneWordShow(t *testing.T) {
 	assert.Equal(t, 1, show.Episode)
 }
 
+func TestLowerCaseShow(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, _ := parser.FromFilename("westworld.S02E01.PROPER.720p.HDTV.x264-BATV.mkv")
+	assert.Equal(t, "Westworld", show.Name)
+	assert.Equal(t, 2, show.Season)
+	assert.Equal(t, 1, show.Episode)
+}
+
 func TestMultipleWordsShow(t *testing.T) {
 	parser := tvshow.NewParser()
 	show, _ := parser.FromFilename("The.Expanse.S02E01.Dulcinea.1080p.WEB-DL.DD5.1.H.264-VietHD.mkv")

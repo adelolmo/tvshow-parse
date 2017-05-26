@@ -35,7 +35,7 @@ func (p *Parser) FromFilename(filename string) (*TvShow, error) {
 
 	rawName := findGroup[1]
 	escapedName := strings.Replace(rawName, ".", " ", -1)
-	name := strings.TrimSpace(escapedName)
+	name := strings.Title(strings.TrimSpace(escapedName))
 
 	season := findGroup[2]
 	seasonNumber, err := strconv.Atoi(season[1:]);
