@@ -14,10 +14,10 @@ func TestNoArgument(t *testing.T) {
 
 func TestOneWordShow(t *testing.T) {
 	parser := tvshow.NewParser()
-	show, _ := parser.FromFilename("Westworld.S02E01.PROPER.720p.HDTV.x264-BATV.mkv")
+	show, _ := parser.FromFilename("Westworld.S12E11.PROPER.720p.HDTV.x264-BATV.mkv")
 	assert.Equal(t, "Westworld", show.Name)
-	assert.Equal(t, 2, show.Season)
-	assert.Equal(t, 1, show.Episode)
+	assert.Equal(t, 12, show.Season)
+	assert.Equal(t, 11, show.Episode)
 }
 
 func TestLowerCaseShow(t *testing.T) {
@@ -46,10 +46,10 @@ func TestMultipleWordsLowerCaseShow(t *testing.T) {
 
 func TestMultipleWordsUnderscoreShow(t *testing.T) {
 	parser := tvshow.NewParser()
-	show, _ := parser.FromFilename("doctor_who_2005.02x01.720p_hdtv_x264-fov.mkv")
+	show, _ := parser.FromFilename("doctor_who_2005.12x11.720p_hdtv_x264-fov.mkv")
 	assert.Equal(t, "Doctor Who 2005", show.Name)
-	assert.Equal(t, 2, show.Season)
-	assert.Equal(t, 1, show.Episode)
+	assert.Equal(t, 12, show.Season)
+	assert.Equal(t, 11, show.Episode)
 }
 
 func TestShowWithNumbers(t *testing.T) {
