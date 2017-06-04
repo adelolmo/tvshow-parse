@@ -47,7 +47,6 @@ func NewParser() *Parser {
 }
 
 func (p *Parser) FromFilename(filename string) (*TvShow, error) {
-	fmt.Printf("filename: %s\n", filename)
 	if (len(filename) == 0) {
 		return nil, errors.New("Missing parameter filename")
 	}
@@ -56,7 +55,6 @@ func (p *Parser) FromFilename(filename string) (*TvShow, error) {
 		regex := rule.Regex
 		r := regexp.MustCompile(regex)
 		findGroup := r.FindStringSubmatch(filename)
-		fmt.Printf("group len: %d\n", len(findGroup))
 		if (len(findGroup) < rule.GroupSize) {
 			continue
 		}
