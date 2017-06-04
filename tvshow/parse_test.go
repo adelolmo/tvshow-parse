@@ -36,6 +36,14 @@ func TestMultipleWordsShow(t *testing.T) {
 	assert.Equal(t, 1, show.Episode)
 }
 
+func TestMultipleWordsUnderscoreShow(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, _ := parser.FromFilename("doctor_who_2005.02x01.720p_hdtv_x264-fov.mkv")
+	assert.Equal(t, "Doctor Who 2005", show.Name)
+	assert.Equal(t, 2, show.Season)
+	assert.Equal(t, 1, show.Episode)
+}
+
 func TestShowWithNumbers(t *testing.T) {
 	parser := tvshow.NewParser()
 	show, _ := parser.FromFilename("12.Monkeys.S02E01.720p.HDTV.x264-KILLERS.mkv")
