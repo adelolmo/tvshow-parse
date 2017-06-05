@@ -51,6 +51,16 @@ func (p *Parser) FromFilename(filename string) (*TvShow, error) {
 		return nil, errors.New("Missing parameter filename")
 	}
 
+	punctuationReplace := strings.NewReplacer(".", " ",
+		"_", " ",
+	)
+	articleReplace := strings.NewReplacer(" Of ", " of ",
+		" The ", " the ",
+		" On ", " on ",
+		" In ", " in ",
+		" And ", " and ",
+		" Vs ", " vs ",
+	)
 	for _, rule := range p.Rules {
 		regex := rule.Regex
 		r := regexp.MustCompile(regex)
@@ -60,12 +70,9 @@ func (p *Parser) FromFilename(filename string) (*TvShow, error) {
 		}
 
 		rawName := findGroup[rule.NameGroup]
-		replace := strings.NewReplacer(".", " ",
-			"_", " ",
-		)
 
-		escapedName := replace.Replace(rawName)
-		name := strings.Title(strings.TrimSpace(escapedName))
+		escapedName := punctuationReplace.Replace(rawName)
+		name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
 
 		season := findGroup[rule.SeasonGroup]
 		seasonNumber, err := strconv.Atoi(season[1:]);
