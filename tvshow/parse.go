@@ -27,7 +27,7 @@ type TvShow struct {
 }
 
 func NewParser() *Parser {
-	rules := make([]rule, 2)
+	rules := make([]rule, 3)
 	rules[0] = rule{
 		Regex:`(^[0-9A-Za-z.]*)(^*[Ss][0-9]{2})(^*[Ee][0-9]{2})`,
 		GroupSize:4,
@@ -37,6 +37,13 @@ func NewParser() *Parser {
 	}
 	rules[1] = rule{
 		Regex:`(^[0-9A-Za-z_]*)(^*[.][0-9]{2})(^*[x][0-9]{2})`,
+		GroupSize:4,
+		NameGroup:1,
+		SeasonGroup:2,
+		EpisodeGroup:3,
+	}
+	rules[2] = rule{
+		Regex:`(^[0-9A-Za-z_ ]*)(^*- [0-9]{1})(^*[x][0-9]{2})`,
 		GroupSize:4,
 		NameGroup:1,
 		SeasonGroup:2,
@@ -60,6 +67,10 @@ func (p *Parser) FromFilename(filename string) (*TvShow, error) {
 		" In ", " in ",
 		" And ", " and ",
 		" Vs ", " vs ",
+		" Del ", " del ",
+		" El ", " el ",
+		" La ", " la ",
+		" En ", " en ",
 	)
 	for _, rule := range p.Rules {
 		regex := rule.Regex
@@ -75,7 +86,7 @@ func (p *Parser) FromFilename(filename string) (*TvShow, error) {
 		name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
 
 		season := findGroup[rule.SeasonGroup]
-		seasonNumber, err := strconv.Atoi(season[1:]);
+		seasonNumber, err := strconv.Atoi(strings.Trim(season[1:], " "));
 		if err != nil {
 			return nil, fmt.Errorf("Unable to parse season number from %s", filename)
 		}
