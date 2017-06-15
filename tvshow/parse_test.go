@@ -84,6 +84,14 @@ func TestOneDigitSeason(t *testing.T) {
 	assert.Equal(t, 1, show.Episode)
 }
 
+func TestDoubleSeasonDigitsDoubleEpisodeDigitsWithBlanks(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, _ := parser.FromFilename("Doctor Who 2005 S10E01 720p HDTV x264 FoV")
+	assert.Equal(t, "Doctor Who 2005", show.Name)
+	assert.Equal(t, 10, show.Season)
+	assert.Equal(t, 1, show.Episode)
+}
+
 func TestFilm(t *testing.T) {
 	parser := tvshow.NewParser()
 	_, err := parser.FromFilename("Logan.2017.1080p.WEB-DL.H264.AC3-EVO[EtHD].mkv")

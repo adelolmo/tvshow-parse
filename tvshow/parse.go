@@ -43,7 +43,7 @@ type TvShow struct {
 func NewParser() *Parser {
 	rules := make([]rule, 3)
 	rules[0] = rule{
-		Regex:`(^[0-9A-Za-z.]*)(^*[Ss][0-9]{2})(^*[Ee][0-9]{2})`,
+		Regex:`(^[0-9A-Za-z._ ]*)(^*[Ss][0-9]{2})(^*[Ee][0-9]{2})`,
 		Function:threeGroups,
 	}
 	rules[1] = rule{
