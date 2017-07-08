@@ -41,7 +41,7 @@ type TvShow struct {
 }
 
 func NewParser() *Parser {
-	rules := make([]rule, 4)
+	rules := make([]rule, 5)
 	rules[0] = rule{
 		Regex:`(^[0-9A-Za-z._ ]*)(^*[Ss][0-9]{2})(^*[Ee][0-9]{2})`,
 		Function:threeGroups,
@@ -54,11 +54,13 @@ func NewParser() *Parser {
 		Regex:`(^[0-9A-Za-z_ ]*)(^*- )(^*[0-9]{1})(^*x)(^*[0-9]{2})`,
 		Function:fiveGroups,
 	}
-	// El Ministerio Del Tiempo Temporada 2 Capitulo 1
 	rules[3] = rule{
 		Regex:`(^[0-9A-Za-z ]*)(^*Temporada [0-9]{1} )(Capitulo [0-9]{1}$)`,
-		//Regex:`(^[0-9A-Za-z ]*)(^*Temporada )(^[0-9]{1} )(Capitulo *$)([0-9]{1}$)`,
 		Function:threeGroupsFullWords,
+	}
+	rules[4] = rule{
+		Regex:`(^[0-9A-Za-z]*)(^*720p_)(^*[0-9]{3})`,
+		Function:threeGroupsCamelCaseQuality,
 	}
 	return &Parser{Rules:rules}
 }
@@ -95,27 +97,25 @@ func threeGroups(filename, regex string) (*TvShow, error) {
 		Episode:episodeNumber}, nil
 }
 
-func threeGroupsFullWords(filename, regex string) (*TvShow, error) {
+func threeGroupsCamelCaseQuality(filename, regex string) (*TvShow, error) {
 	r := regexp.MustCompile(regex)
 	findGroup := r.FindStringSubmatch(filename)
-
-	if (len(findGroup) < 4) {
+	if (len(findGroup) < 3) {
 		return nil, errors.New("not a match")
 	}
 
 	rawName := findGroup[1]
-
-	escapedName := punctuationReplace.Replace(rawName)
+	escapedName := punctuationReplace.Replace(blanks(rawName))
 	name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
 
-	season := findGroup[2]
-	seasonNumber, err := strconv.Atoi(strings.Trim(season[10:], " "));
+	season := findGroup[3][:1]
+	seasonNumber, err := strconv.Atoi(strings.Trim(season, " "));
 	if err != nil {
 		return nil, fmt.Errorf("Unable to parse season number from %s", filename)
 	}
 
-	episode := findGroup[3]
-	episodeNumber, err := strconv.Atoi(episode[9:]);
+	episode := findGroup[3][1:]
+	episodeNumber, err := strconv.Atoi(episode[1:]);
 	if err != nil {
 		return nil, fmt.Errorf("Unable to parse episode number from %s", filename)
 	}
@@ -145,6 +145,36 @@ func fiveGroups(filename, regex string) (*TvShow, error) {
 
 	episode := findGroup[5]
 	episodeNumber, err := strconv.Atoi(episode);
+	if err != nil {
+		return nil, fmt.Errorf("Unable to parse episode number from %s", filename)
+	}
+
+	return &TvShow{
+		Name:name,
+		Season:seasonNumber,
+		Episode:episodeNumber}, nil
+}
+func threeGroupsFullWords(filename, regex string) (*TvShow, error) {
+	r := regexp.MustCompile(regex)
+	findGroup := r.FindStringSubmatch(filename)
+
+	if (len(findGroup) < 4) {
+		return nil, errors.New("not a match")
+	}
+
+	rawName := findGroup[1]
+
+	escapedName := punctuationReplace.Replace(rawName)
+	name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
+
+	season := findGroup[2]
+	seasonNumber, err := strconv.Atoi(strings.Trim(season[10:], " "));
+	if err != nil {
+		return nil, fmt.Errorf("Unable to parse season number from %s", filename)
+	}
+
+	episode := findGroup[3]
+	episodeNumber, err := strconv.Atoi(episode[9:]);
 	if err != nil {
 		return nil, fmt.Errorf("Unable to parse episode number from %s", filename)
 	}
