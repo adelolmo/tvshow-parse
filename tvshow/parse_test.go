@@ -92,12 +92,32 @@ func TestDoubleSeasonDigitsDoubleEpisodeDigitsWithBlanks(t *testing.T) {
 	assert.Equal(t, 1, show.Episode)
 }
 
-func TestSpanishSeasonEpisodeFullWords(t *testing.T) {
+func TestSpanishSeasonOneDigitFullWords(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, _ := parser.FromFilename("El Ministerio Del Tiempo Temporada 2 Capitulo 10")
+	assert.Equal(t, "El Ministerio del Tiempo", show.Name)
+	assert.Equal(t, 2, show.Season)
+}
+
+func TestSpanishSeasonTwoDigitsFullWords(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, _ := parser.FromFilename("El Ministerio Del Tiempo Temporada 12 Capitulo 10")
+	assert.Equal(t, "El Ministerio del Tiempo", show.Name)
+	assert.Equal(t, 12, show.Season)
+}
+
+func TestSpanishEpisodeOneDigitFullWords(t *testing.T) {
 	parser := tvshow.NewParser()
 	show, _ := parser.FromFilename("El Ministerio Del Tiempo Temporada 2 Capitulo 1")
 	assert.Equal(t, "El Ministerio del Tiempo", show.Name)
-	assert.Equal(t, 2, show.Season)
 	assert.Equal(t, 1, show.Episode)
+}
+
+func TestSpanishEpisodeTwoDigitsFullWords(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, _ := parser.FromFilename("El Ministerio Del Tiempo Temporada 2 Capitulo 10")
+	assert.Equal(t, "El Ministerio del Tiempo", show.Name)
+	assert.Equal(t, 10, show.Episode)
 }
 
 func TestNoSpaceInFilenameNorSeasonEpisode(t *testing.T) {

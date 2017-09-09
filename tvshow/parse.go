@@ -55,8 +55,8 @@ func NewParser() *Parser {
 		Function:fiveGroups,
 	}
 	rules[3] = rule{
-		Regex:`(^[0-9A-Za-z ]*)(^*Temporada [0-9]{1} )(Capitulo [0-9]{1}$)`,
-		Function:threeGroupsFullWords,
+		Regex:    `(^[0-9A-Za-z ]*)(^*Temporada [0-9]* )(Capitulo [0-9]*$)`,
+		Function: threeGroupsFullWords,
 	}
 	rules[4] = rule{
 		Regex:`(^[0-9A-Za-z]*)(^*720p_)(^*[0-9]{3})`,
