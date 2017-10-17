@@ -117,7 +117,7 @@ func threeGroupsCamelCaseQuality(filename, regex string) (*TvShow, error) {
 		return nil, fmt.Errorf("unable to parse season number from %s", filename)
 	}
 
-	episode := findGroup[3][1:]
+	episode := findGroup[3][0:]
 	episodeNumber, err := strconv.Atoi(episode[1:]);
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse episode number from %s", filename)
@@ -141,13 +141,13 @@ func threeGroupsCamelCase(filename, regex string) (*TvShow, error) {
 	name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
 
 	season := findGroup[3][:1]
-	seasonNumber, err := strconv.Atoi(strings.Trim(season, " "));
+	seasonNumber, err := strconv.Atoi(strings.Trim(season, " "))
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse season number from %s", filename)
 	}
 
-	episode := findGroup[3][1:]
-	episodeNumber, err := strconv.Atoi(episode[1:]);
+	episode := findGroup[3][0:]
+	episodeNumber, err := strconv.Atoi(episode[1:])
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse episode number from %s", filename)
 	}
