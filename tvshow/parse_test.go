@@ -9,7 +9,7 @@ import (
 func TestNoArgument(t *testing.T) {
 	parser := tvshow.NewParser()
 	_, err := parser.FromFilename("")
-	assert.Equal(t, "Missing parameter filename", err.Error())
+	assert.Equal(t, "missing parameter filename", err.Error())
 }
 
 func TestOneWordShow(t *testing.T) {
@@ -120,9 +120,17 @@ func TestSpanishEpisodeTwoDigitsFullWords(t *testing.T) {
 	assert.Equal(t, 10, show.Episode)
 }
 
-func TestNoSpaceInFilenameNorSeasonEpisode(t *testing.T) {
+func TestNoSpaceInFilenameNorSeasonEpisodeWithVideoQuality(t *testing.T) {
 	parser := tvshow.NewParser()
 	show, _ := parser.FromFilename("ElMinisterioDelTiempo720p_201_WWW.NEWPCT1.COM.mkv")
+	assert.Equal(t, "El Ministerio del Tiempo", show.Name)
+	assert.Equal(t, 2, show.Season)
+	assert.Equal(t, 1, show.Episode)
+}
+
+func TestNoSpaceInFilenameNorSeasonEpisode(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, _ := parser.FromFilename("ElMinisterioDelTiempo_201_WWW.NEWPCT1.COM.mkv")
 	assert.Equal(t, "El Ministerio del Tiempo", show.Name)
 	assert.Equal(t, 2, show.Season)
 	assert.Equal(t, 1, show.Episode)
@@ -131,5 +139,5 @@ func TestNoSpaceInFilenameNorSeasonEpisode(t *testing.T) {
 func TestFilm(t *testing.T) {
 	parser := tvshow.NewParser()
 	_, err := parser.FromFilename("Logan.2017.1080p.WEB-DL.H264.AC3-EVO[EtHD].mkv")
-	assert.Equal(t, "Unable to parse filename Logan.2017.1080p.WEB-DL.H264.AC3-EVO[EtHD].mkv", err.Error())
+	assert.Equal(t, "unable to parse filename Logan.2017.1080p.WEB-DL.H264.AC3-EVO[EtHD].mkv", err.Error())
 }
