@@ -144,6 +144,14 @@ func TestNoSpaceInFilenameNorSeasonEpisodeTwoDigitsSeason(t *testing.T) {
 	assert.Equal(t, 11, show.Episode)
 }
 
+func TestTitleWithDash(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, _ := parser.FromFilename("the.x-files.s02e11.720p.web.x264-tbs.mkv")
+	assert.Equal(t, "The X-Files", show.Name)
+	assert.Equal(t, 2, show.Season)
+	assert.Equal(t, 11, show.Episode)
+}
+
 func TestFilm(t *testing.T) {
 	parser := tvshow.NewParser()
 	_, err := parser.FromFilename("Logan.2017.1080p.WEB-DL.H264.AC3-EVO[EtHD].mkv")

@@ -9,7 +9,8 @@ import (
 
 func main() {
 	filename := flag.String("filename", "", "tv show's filename")
-	filter := flag.String("filter", "name", "tv show's filter. (name|season|episode)")
+	filter := flag.String("filter", "name",
+		"tv show's filter.\n\t\t* name|n. tv show name\n\t\t* season|s. season number\n\t\t* episode|e. episode number\n")
 
 	flag.Parse()
 	if len(*filename) == 0 {
