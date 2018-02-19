@@ -42,7 +42,7 @@ type TvShow struct {
 }
 
 func NewParser() *Parser {
-	rules := make([]rule, 6)
+	rules := make([]rule, 7)
 	rules[0] = rule{
 		Regex:    `(^[0-9A-Za-z._\- ]*)(^*[Ss][0-9]{2})(^*[Ee][0-9]{2})`,
 		Function: threeGroups,
@@ -56,14 +56,18 @@ func NewParser() *Parser {
 		Function: fiveGroups,
 	}
 	rules[3] = rule{
+		Regex:    `(^[0-9A-Za-z]*)(^* 720 )(^*[0-9]{1})(^*x)(^*[0-9]{2})`,
+		Function: fiveGroups,
+	}
+	rules[4] = rule{
 		Regex:    `(^[0-9A-Za-z ]*)(^*Temporada [0-9]* )(Capitulo [0-9]*$)`,
 		Function: threeGroupsFullWords,
 	}
-	rules[4] = rule{
+	rules[5] = rule{
 		Regex:    `(^[0-9A-Za-z]*)(^*720p_)(^*[0-9]{3})`,
 		Function: threeGroupsCamelCaseQuality,
 	}
-	rules[5] = rule{
+	rules[6] = rule{
 		Regex:    `(^[0-9A-Za-z]*)(^*_)(^*[0-9]{3})`,
 		Function: threeGroupsCamelCase,
 	}
@@ -78,7 +82,6 @@ func threeGroups(filename, regex string) (*TvShow, error) {
 	}
 
 	rawName := findGroup[1]
-
 	escapedName := punctuationReplace.Replace(rawName)
 	name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
 
