@@ -42,7 +42,7 @@ type TvShow struct {
 }
 
 func NewParser() *Parser {
-	rules := make([]rule, 7)
+	rules := make([]rule, 9)
 	rules[0] = rule{
 		Regex:    `(^[0-9A-Za-z._\- ]*)(^*[Ss][0-9]{2})(^*[Ee][0-9]{2})`,
 		Function: threeGroups,
@@ -60,14 +60,22 @@ func NewParser() *Parser {
 		Function: fiveGroups,
 	}
 	rules[4] = rule{
+		Regex:    `(^[0-9A-Za-z]*)(^* 720p )(^*[0-9]{1})(^*x)(^*[0-9]{2})`,
+		Function: fiveGroups,
+	}
+	rules[5] = rule{
+		Regex:    `(^[0-9A-Za-z]*)(^*720p)(^*[0-9]{1})(^*x)(^*[0-9]{2})`,
+		Function: fiveGroups,
+	}
+	rules[6] = rule{
 		Regex:    `(^[0-9A-Za-z ]*)(^*Temporada [0-9]* )(Capitulo [0-9]*$)`,
 		Function: threeGroupsFullWords,
 	}
-	rules[5] = rule{
+	rules[7] = rule{
 		Regex:    `(^[0-9A-Za-z]*)(^*720p_)(^*[0-9]{3})`,
 		Function: threeGroupsCamelCaseQuality,
 	}
-	rules[6] = rule{
+	rules[8] = rule{
 		Regex:    `(^[0-9A-Za-z]*)(^*_)(^*[0-9]{3})`,
 		Function: threeGroupsCamelCase,
 	}

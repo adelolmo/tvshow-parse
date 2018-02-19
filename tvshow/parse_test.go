@@ -136,6 +136,22 @@ func TestQualityWithoutPBeforeEpisodeAndSeason(t *testing.T) {
 	assert.Equal(t, 11, show.Episode)
 }
 
+func TestQualityWithPBeforeEpisodeAndSeason(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, _ := parser.FromFilename("Gomorra 720p 2x11 [www.url.com].mkv")
+	assert.Equal(t, "Gomorra", show.Name)
+	assert.Equal(t, 2, show.Season)
+	assert.Equal(t, 11, show.Episode)
+}
+
+func TestNoSpaceInFilenameNorSeasonEpisodeWithX(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, _ := parser.FromFilename("Gomorra720p2x11 [www.url.com].mkv")
+	assert.Equal(t, "Gomorra", show.Name)
+	assert.Equal(t, 2, show.Season)
+	assert.Equal(t, 11, show.Episode)
+}
+
 func TestNoSpaceInFilenameNorSeasonEpisode(t *testing.T) {
 	parser := tvshow.NewParser()
 	show, _ := parser.FromFilename("ElMinisterioDelTiempo_201_WWW.NEWPCT1.COM.mkv")
