@@ -56,11 +56,11 @@ func NewParser() *Parser {
 		Function: fiveGroups,
 	}
 	rules[3] = rule{
-		Regex:    `(^[0-9A-Za-z]*)(^* 720 )(^*[0-9]{1})(^*x)(^*[0-9]{2})`,
+		Regex:    `(^[0-9A-Za-z ]*)(^* 720 )(^*[0-9]{1})(^*x)(^*[0-9]{2})`,
 		Function: fiveGroups,
 	}
 	rules[4] = rule{
-		Regex:    `(^[0-9A-Za-z]*)(^* 720p )(^*[0-9]{1})(^*x)(^*[0-9]{2})`,
+		Regex:    `(^[0-9A-Za-z ]*)(^* 720p )(^*[0-9]{1})(^*x)(^*[0-9]{2})`,
 		Function: fiveGroups,
 	}
 	rules[5] = rule{

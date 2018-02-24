@@ -130,24 +130,24 @@ func TestNoSpaceInFilenameNorSeasonEpisodeWithVideoQuality(t *testing.T) {
 
 func TestQualityWithoutPBeforeEpisodeAndSeason(t *testing.T) {
 	parser := tvshow.NewParser()
-	show, _ := parser.FromFilename("Gomorra 720 2x11 [www.url.com].mkv")
-	assert.Equal(t, "Gomorra", show.Name)
+	show, _ := parser.FromFilename("Two Words 720 2x11 [www.url.com].mkv")
+	assert.Equal(t, "Two Words", show.Name)
 	assert.Equal(t, 2, show.Season)
 	assert.Equal(t, 11, show.Episode)
 }
 
 func TestQualityWithPBeforeEpisodeAndSeason(t *testing.T) {
 	parser := tvshow.NewParser()
-	show, _ := parser.FromFilename("Gomorra 720p 2x11 [www.url.com].mkv")
-	assert.Equal(t, "Gomorra", show.Name)
+	show, _ := parser.FromFilename("Two Words 720p 2x11 [www.url.com].mkv")
+	assert.Equal(t, "Two Words", show.Name)
 	assert.Equal(t, 2, show.Season)
 	assert.Equal(t, 11, show.Episode)
 }
 
 func TestNoSpaceInFilenameNorSeasonEpisodeWithX(t *testing.T) {
 	parser := tvshow.NewParser()
-	show, _ := parser.FromFilename("Gomorra720p2x11 [www.url.com].mkv")
-	assert.Equal(t, "Gomorra", show.Name)
+	show, _ := parser.FromFilename("Title720p2x11 [www.url.com].mkv")
+	assert.Equal(t, "Title", show.Name)
 	assert.Equal(t, 2, show.Season)
 	assert.Equal(t, 11, show.Episode)
 }
