@@ -22,7 +22,7 @@ for arch in ${ar}; do
     fi
 
     architecture=$( echo $arch | sed 's/arm/armhf/g' )
-    size=$(du -csh $BUILD/tmp | sed '1!d' | grep -oe "^[0-9]*")
+    size=$(du -cs $BUILD/tmp | sed '1!d' | grep -oe "^[0-9]*")
     sed -i 's/{{version}}/'${version}'/g;s/{{size}}/'${size}'/g;s/{{architecture}}/'${architecture}'/g' $BUILD/tmp/DEBIAN/control
 
     fakeroot dpkg-deb -b -z9 $BUILD/tmp $BUILD/release
