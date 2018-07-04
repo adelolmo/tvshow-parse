@@ -241,5 +241,5 @@ func (p *Parser) FromFilename(filename string) (*TvShow, error) {
 		}
 		return show, nil
 	}
-	return nil, fmt.Errorf("unable to parse filename %s", filename)
+	return nil, fmt.Errorf("unable to parse filename '%s'", filename)
 }

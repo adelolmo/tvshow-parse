@@ -78,10 +78,10 @@ func TestDontUpperCaseMiddleArticlesOrPrepositions(t *testing.T) {
 
 func TestOneDigitSeason(t *testing.T) {
 	parser := tvshow.NewParser()
-	show, _ := parser.FromFilename("El ministerio del tiempo - 2x01 (EliteTorrent.net).mp4")
+	show, _ := parser.FromFilename("El ministerio del tiempo - 2x11 (EliteTorrent.net).mp4")
 	assert.Equal(t, "El Ministerio del Tiempo", show.Name)
 	assert.Equal(t, 2, show.Season)
-	assert.Equal(t, 1, show.Episode)
+	assert.Equal(t, 11, show.Episode)
 }
 
 func TestDoubleSeasonDigitsDoubleEpisodeDigitsWithBlanks(t *testing.T) {
@@ -179,5 +179,5 @@ func TestTitleWithDash(t *testing.T) {
 func TestFilm(t *testing.T) {
 	parser := tvshow.NewParser()
 	_, err := parser.FromFilename("Logan.2017.1080p.WEB-DL.H264.AC3-EVO[EtHD].mkv")
-	assert.Equal(t, "unable to parse filename Logan.2017.1080p.WEB-DL.H264.AC3-EVO[EtHD].mkv", err.Error())
+	assert.Equal(t, "unable to parse filename 'Logan.2017.1080p.WEB-DL.H264.AC3-EVO[EtHD].mkv'", err.Error())
 }
