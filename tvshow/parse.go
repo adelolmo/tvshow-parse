@@ -100,7 +100,7 @@ func threeGroups(filename, regex string) (*TvShow, error) {
 	}
 
 	episode := findGroup[3]
-	episodeNumber, err := strconv.Atoi(episode[1:]);
+	episodeNumber, err := strconv.Atoi(episode[1:])
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse episode number from %s", filename)
 	}
@@ -123,13 +123,13 @@ func threeGroupsCamelCaseQuality(filename, regex string) (*TvShow, error) {
 	name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
 
 	season := findGroup[3][:1]
-	seasonNumber, err := strconv.Atoi(strings.Trim(season, " "));
+	seasonNumber, err := strconv.Atoi(strings.Trim(season, " "))
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse season number from %s", filename)
 	}
 
 	episode := findGroup[3][0:]
-	episodeNumber, err := strconv.Atoi(episode[1:]);
+	episodeNumber, err := strconv.Atoi(episode[1:])
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse episode number from %s", filename)
 	}
@@ -181,13 +181,13 @@ func fiveGroups(filename, regex string) (*TvShow, error) {
 	name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
 
 	season := findGroup[3]
-	seasonNumber, err := strconv.Atoi(season);
+	seasonNumber, err := strconv.Atoi(season)
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse season number from %s", filename)
 	}
 
 	episode := findGroup[5]
-	episodeNumber, err := strconv.Atoi(episode);
+	episodeNumber, err := strconv.Atoi(episode)
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse episode number from %s", filename)
 	}
@@ -212,13 +212,13 @@ func threeGroupsFullWords(filename, regex string) (*TvShow, error) {
 	name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
 
 	season := findGroup[2]
-	seasonNumber, err := strconv.Atoi(strings.Trim(season[10:], " "));
+	seasonNumber, err := strconv.Atoi(strings.Trim(season[10:], " "))
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse season number from %s", filename)
 	}
 
 	episode := findGroup[3]
-	episodeNumber, err := strconv.Atoi(episode[9:]);
+	episodeNumber, err := strconv.Atoi(episode[9:])
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse episode number from %s", filename)
 	}
