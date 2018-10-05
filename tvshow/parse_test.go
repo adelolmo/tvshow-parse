@@ -1,9 +1,9 @@
 package tvshow_test
 
 import (
-	"testing"
-	"github.com/bmizerany/assert"
 	"github.com/adelolmo/tvshow/tvshow"
+	"github.com/bmizerany/assert"
+	"testing"
 )
 
 func TestNoArgument(t *testing.T) {
@@ -26,6 +26,14 @@ func TestLowerCaseShow(t *testing.T) {
 	assert.Equal(t, "Westworld", show.Name)
 	assert.Equal(t, 2, show.Season)
 	assert.Equal(t, 1, show.Episode)
+}
+
+func TestArticleLowerCase(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, _ := parser.FromFilename("the.man.in.the.high.castle.s03e10.720p.web.h264-skgtv.mkv")
+	assert.Equal(t, "The Man in the High Castle", show.Name)
+	assert.Equal(t, 3, show.Season)
+	assert.Equal(t, 10, show.Episode)
 }
 
 func TestMultipleWordsShow(t *testing.T) {

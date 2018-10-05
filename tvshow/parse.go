@@ -1,28 +1,24 @@
 package tvshow
 
 import (
-	"regexp"
-	"fmt"
-	"strings"
-	"strconv"
 	"errors"
+	"fmt"
+	"regexp"
+	"strconv"
+	"strings"
 )
 
 var punctuationReplace = strings.NewReplacer(".", " ",
 	"_", " ",
 )
 
-var articleReplace = strings.NewReplacer(" Of ", " of ",
-	" The ", " the ",
-	" On ", " on ",
-	" In ", " in ",
-	" And ", " and ",
-	" Vs ", " vs ",
-	" Del ", " del ",
-	" El ", " el ",
-	" La ", " la ",
-	" En ", " en ",
-)
+var replace = func(word string) string {
+	switch word {
+	case "of", "the", "on", "in", "and", "vs", "del", "el", "la", "en":
+		return word
+	}
+	return strings.Title(word)
+}
 
 type ParserFunc func(string, string) (*TvShow, error)
 
@@ -82,6 +78,21 @@ func NewParser() *Parser {
 	return &Parser{Rules: rules}
 }
 
+func (p *Parser) FromFilename(filename string) (*TvShow, error) {
+	if len(filename) == 0 {
+		return nil, errors.New("missing parameter filename")
+	}
+
+	for _, rule := range p.Rules {
+		show, err := rule.Function(filename, rule.Regex)
+		if err != nil {
+			continue
+		}
+		return show, nil
+	}
+	return nil, fmt.Errorf("unable to parse filename '%s'", filename)
+}
+
 func threeGroups(filename, regex string) (*TvShow, error) {
 	r := regexp.MustCompile(regex)
 	findGroup := r.FindStringSubmatch(filename)
@@ -91,7 +102,7 @@ func threeGroups(filename, regex string) (*TvShow, error) {
 
 	rawName := findGroup[1]
 	escapedName := punctuationReplace.Replace(rawName)
-	name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
+	name := title(escapedName)
 
 	season := findGroup[2]
 	seasonNumber, err := strconv.Atoi(strings.Trim(season[1:], " "))
@@ -120,7 +131,7 @@ func threeGroupsCamelCaseQuality(filename, regex string) (*TvShow, error) {
 
 	rawName := findGroup[1]
 	escapedName := punctuationReplace.Replace(blanks(rawName))
-	name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
+	name := title(escapedName)
 
 	season := findGroup[3][:1]
 	seasonNumber, err := strconv.Atoi(strings.Trim(season, " "))
@@ -149,7 +160,7 @@ func threeGroupsCamelCase(filename, regex string) (*TvShow, error) {
 
 	rawName := findGroup[1]
 	escapedName := punctuationReplace.Replace(blanks(rawName))
-	name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
+	name := title(escapedName)
 
 	season := findGroup[3][:1]
 	seasonNumber, err := strconv.Atoi(strings.Trim(season, " "))
@@ -178,7 +189,7 @@ func fiveGroups(filename, regex string) (*TvShow, error) {
 
 	rawName := findGroup[1]
 	escapedName := punctuationReplace.Replace(rawName)
-	name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
+	name := title(escapedName)
 
 	season := findGroup[3]
 	seasonNumber, err := strconv.Atoi(season)
@@ -209,7 +220,7 @@ func threeGroupsFullWords(filename, regex string) (*TvShow, error) {
 	rawName := findGroup[1]
 
 	escapedName := punctuationReplace.Replace(rawName)
-	name := articleReplace.Replace(strings.Title(strings.TrimSpace(escapedName)))
+	name := title(escapedName)
 
 	season := findGroup[2]
 	seasonNumber, err := strconv.Atoi(strings.Trim(season[10:], " "))
@@ -229,17 +240,8 @@ func threeGroupsFullWords(filename, regex string) (*TvShow, error) {
 		Episode: episodeNumber}, nil
 }
 
-func (p *Parser) FromFilename(filename string) (*TvShow, error) {
-	if len(filename) == 0 {
-		return nil, errors.New("missing parameter filename")
-	}
-
-	for _, rule := range p.Rules {
-		show, err := rule.Function(filename, rule.Regex)
-		if err != nil {
-			continue
-		}
-		return show, nil
-	}
-	return nil, fmt.Errorf("unable to parse filename '%s'", filename)
+func title(name string) string {
+	rx := regexp.MustCompile(`\w+`)
+	title := rx.ReplaceAllStringFunc(strings.ToLower(name), replace)
+	return strings.Title(title[0:1]) + strings.TrimSpace(title[1:])
 }

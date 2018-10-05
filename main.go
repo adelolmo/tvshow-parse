@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/adelolmo/tvshow/tvshow"
-	"fmt"
 	"flag"
+	"fmt"
+	"github.com/adelolmo/tvshow/tvshow"
 	"os"
 )
 
@@ -18,8 +18,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	parser := tvshow.NewParser();
-	show, err := parser.FromFilename(*filename);
+	parser := tvshow.NewParser()
+	show, err := parser.FromFilename(*filename)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
