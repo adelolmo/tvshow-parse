@@ -3,10 +3,13 @@ package tvshow
 import (
 	"errors"
 	"fmt"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
 )
+
+const debug = false
 
 var punctuationReplace = strings.NewReplacer(".", " ",
 	"_", " ",
@@ -14,6 +17,9 @@ var punctuationReplace = strings.NewReplacer(".", " ",
 
 var replace = func(word string) string {
 	switch word {
+	case "Of", "The", "On", "In", "And", "Vs", "Del", "El", "La", "En":
+		return strings.ToLower(word)
+
 	case "of", "the", "on", "in", "and", "vs", "del", "el", "la", "en":
 		return word
 	}
@@ -96,6 +102,9 @@ func (p *Parser) FromFilename(filename string) (*TvShow, error) {
 func threeGroups(filename, regex string) (*TvShow, error) {
 	r := regexp.MustCompile(regex)
 	findGroup := r.FindStringSubmatch(filename)
+	if debug {
+		fmt.Fprintf(os.Stdout, "threeGroups len:%d  %s\n", len(findGroup), filename)
+	}
 	if len(findGroup) < 4 {
 		return nil, errors.New("not a match")
 	}
@@ -103,6 +112,11 @@ func threeGroups(filename, regex string) (*TvShow, error) {
 	rawName := findGroup[1]
 	escapedName := punctuationReplace.Replace(rawName)
 	name := title(escapedName)
+	if debug {
+		fmt.Fprintf(os.Stdout, "rawName: %s\n", rawName)
+		fmt.Fprintf(os.Stdout, "escapedName: %s\n", escapedName)
+		fmt.Fprintf(os.Stdout, "name: %s\n", name)
+	}
 
 	season := findGroup[2]
 	seasonNumber, err := strconv.Atoi(strings.Trim(season[1:], " "))
@@ -125,6 +139,9 @@ func threeGroups(filename, regex string) (*TvShow, error) {
 func threeGroupsCamelCaseQuality(filename, regex string) (*TvShow, error) {
 	r := regexp.MustCompile(regex)
 	findGroup := r.FindStringSubmatch(filename)
+	if debug {
+		fmt.Fprintf(os.Stdout, "threeGroupsCamelCaseQuality len:%d  %s\n", len(findGroup), filename)
+	}
 	if len(findGroup) < 3 {
 		return nil, errors.New("not a match")
 	}
@@ -132,6 +149,11 @@ func threeGroupsCamelCaseQuality(filename, regex string) (*TvShow, error) {
 	rawName := findGroup[1]
 	escapedName := punctuationReplace.Replace(blanks(rawName))
 	name := title(escapedName)
+	if debug {
+		fmt.Fprintf(os.Stdout, "rawName: %s\n", rawName)
+		fmt.Fprintf(os.Stdout, "escapedName: %s\n", escapedName)
+		fmt.Fprintf(os.Stdout, "name: %s\n", name)
+	}
 
 	season := findGroup[3][:1]
 	seasonNumber, err := strconv.Atoi(strings.Trim(season, " "))
@@ -154,6 +176,9 @@ func threeGroupsCamelCaseQuality(filename, regex string) (*TvShow, error) {
 func threeGroupsCamelCase(filename, regex string) (*TvShow, error) {
 	r := regexp.MustCompile(regex)
 	findGroup := r.FindStringSubmatch(filename)
+	if debug {
+		fmt.Fprintf(os.Stdout, "threeGroupsCamelCase len:%d  %s\n", len(findGroup), filename)
+	}
 	if len(findGroup) < 3 {
 		return nil, errors.New("not a match")
 	}
@@ -161,6 +186,11 @@ func threeGroupsCamelCase(filename, regex string) (*TvShow, error) {
 	rawName := findGroup[1]
 	escapedName := punctuationReplace.Replace(blanks(rawName))
 	name := title(escapedName)
+	if debug {
+		fmt.Fprintf(os.Stdout, "rawName: %s\n", rawName)
+		fmt.Fprintf(os.Stdout, "escapedName: %s\n", escapedName)
+		fmt.Fprintf(os.Stdout, "name: %s\n", name)
+	}
 
 	season := findGroup[3][:1]
 	seasonNumber, err := strconv.Atoi(strings.Trim(season, " "))
@@ -183,6 +213,9 @@ func threeGroupsCamelCase(filename, regex string) (*TvShow, error) {
 func fiveGroups(filename, regex string) (*TvShow, error) {
 	r := regexp.MustCompile(regex)
 	findGroup := r.FindStringSubmatch(filename)
+	if debug {
+		fmt.Fprintf(os.Stdout, "fiveGroups len:%d  %s\n", len(findGroup), filename)
+	}
 	if len(findGroup) < 6 {
 		return nil, errors.New("not a match")
 	}
@@ -190,6 +223,11 @@ func fiveGroups(filename, regex string) (*TvShow, error) {
 	rawName := findGroup[1]
 	escapedName := punctuationReplace.Replace(rawName)
 	name := title(escapedName)
+	if debug {
+		fmt.Fprintf(os.Stdout, "rawName: %s\n", rawName)
+		fmt.Fprintf(os.Stdout, "escapedName: %s\n", escapedName)
+		fmt.Fprintf(os.Stdout, "name: %s\n", name)
+	}
 
 	season := findGroup[3]
 	seasonNumber, err := strconv.Atoi(season)
@@ -213,14 +251,21 @@ func threeGroupsFullWords(filename, regex string) (*TvShow, error) {
 	r := regexp.MustCompile(regex)
 	findGroup := r.FindStringSubmatch(filename)
 
+	if debug {
+		fmt.Fprintf(os.Stdout, "threeGroupsFullWords len:%d  %s\n", len(findGroup), filename)
+	}
 	if len(findGroup) < 4 {
 		return nil, errors.New("not a match")
 	}
 
 	rawName := findGroup[1]
-
 	escapedName := punctuationReplace.Replace(rawName)
 	name := title(escapedName)
+	if debug {
+		fmt.Fprintf(os.Stdout, "rawName: %s\n", rawName)
+		fmt.Fprintf(os.Stdout, "escapedName: %s\n", escapedName)
+		fmt.Fprintf(os.Stdout, "name: %s\n", name)
+	}
 
 	season := findGroup[2]
 	seasonNumber, err := strconv.Atoi(strings.Trim(season[10:], " "))
@@ -242,6 +287,6 @@ func threeGroupsFullWords(filename, regex string) (*TvShow, error) {
 
 func title(name string) string {
 	rx := regexp.MustCompile(`\w+`)
-	title := rx.ReplaceAllStringFunc(strings.ToLower(name), replace)
+	title := rx.ReplaceAllStringFunc(name, replace)
 	return strings.Title(title[0:1]) + strings.TrimSpace(title[1:])
 }

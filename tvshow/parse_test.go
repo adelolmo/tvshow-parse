@@ -44,6 +44,14 @@ func TestMultipleWordsShow(t *testing.T) {
 	assert.Equal(t, 1, show.Episode)
 }
 
+func TestMultipleWordsWithUpperCaseShow(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, _ := parser.FromFilename("DCs.Legends.of.Tomorrow.S02E01.720p.HDTV.x264-SVA.mkv")
+	assert.Equal(t, "DCs Legends of Tomorrow", show.Name)
+	assert.Equal(t, 2, show.Season)
+	assert.Equal(t, 1, show.Episode)
+}
+
 func TestMultipleWordsLowerCaseShow(t *testing.T) {
 	parser := tvshow.NewParser()
 	show, _ := parser.FromFilename("the.expanse.S02E01.Dulcinea.1080p.WEB-DL.DD5.1.H.264-VietHD.mkv")
