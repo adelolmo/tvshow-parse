@@ -200,6 +200,14 @@ func TestTitleWithDash(t *testing.T) {
 	assert.Equal(t, 11, show.Episode)
 }
 
+func TestTvShowSeasonEpisode(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, _ := parser.FromFilename("vota juan 2x16")
+	assert.Equal(t, "Vota Juan", show.Name)
+	assert.Equal(t, 2, show.Season)
+	assert.Equal(t, 16, show.Episode)
+}
+
 func TestFilm(t *testing.T) {
 	parser := tvshow.NewParser()
 	_, err := parser.FromFilename("Logan.2017.1080p.WEB-DL.H264.AC3-EVO[EtHD].mkv")
