@@ -3,7 +3,6 @@ package tvshow
 import (
 	"errors"
 	"fmt"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -107,9 +106,9 @@ func threeGroups(filename, regex string) (*TvShow, error) {
 	r := regexp.MustCompile(regex)
 	findGroup := r.FindStringSubmatch(filename)
 	if debug {
-		fmt.Fprintf(os.Stdout, "threeGroups len:%d  %s\n", len(findGroup), filename)
+		_, _ = fmt.Printf("threeGroups len:%d  %s\n", len(findGroup), filename)
 		for i := 0; i < len(findGroup); i++ {
-			fmt.Fprintf(os.Stdout, "findGroup[%d]  %s\n", i, findGroup[i])
+			fmt.Printf("findGroup[%d]  %s\n", i, findGroup[i])
 		}
 	}
 	if len(findGroup) < 4 {
@@ -120,18 +119,18 @@ func threeGroups(filename, regex string) (*TvShow, error) {
 	escapedName := punctuationReplace.Replace(rawName)
 	name := title(escapedName)
 	if debug {
-		fmt.Fprintf(os.Stdout, "rawName: %s\n", rawName)
-		fmt.Fprintf(os.Stdout, "escapedName: %s\n", escapedName)
-		fmt.Fprintf(os.Stdout, "name: %s\n", name)
+		fmt.Printf("rawName: %s\n", rawName)
+		fmt.Printf("escapedName: %s\n", escapedName)
+		fmt.Printf("name: %s\n", name)
 	}
 
 	season := findGroup[2]
 	if debug {
-		fmt.Fprintf(os.Stdout, "season: %s\n", season)
+		fmt.Printf("season: %s\n", season)
 	}
 	seasonNumber, err := strconv.Atoi(strings.Trim(season[1:], " "))
 	if debug {
-		fmt.Fprintf(os.Stdout, "seasonNumber: %d\n", seasonNumber)
+		fmt.Printf("seasonNumber: %d\n", seasonNumber)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse season number from %s", filename)
@@ -139,11 +138,11 @@ func threeGroups(filename, regex string) (*TvShow, error) {
 
 	episode := findGroup[3]
 	if debug {
-		fmt.Fprintf(os.Stdout, "episode: %s\n", episode)
+		fmt.Printf("episode: %s\n", episode)
 	}
 	episodeNumber, err := strconv.Atoi(episode[1:])
 	if debug {
-		fmt.Fprintf(os.Stdout, "episodeNumber: %d\n", episodeNumber)
+		fmt.Printf("episodeNumber: %d\n", episodeNumber)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse episode number from %s", filename)
@@ -159,7 +158,7 @@ func threeGroupsCamelCaseQuality(filename, regex string) (*TvShow, error) {
 	r := regexp.MustCompile(regex)
 	findGroup := r.FindStringSubmatch(filename)
 	if debug {
-		fmt.Fprintf(os.Stdout, "threeGroupsCamelCaseQuality len:%d  %s\n", len(findGroup), filename)
+		fmt.Printf("threeGroupsCamelCaseQuality len:%d  %s\n", len(findGroup), filename)
 	}
 	if len(findGroup) < 3 {
 		return nil, errors.New("not a match")
@@ -169,9 +168,9 @@ func threeGroupsCamelCaseQuality(filename, regex string) (*TvShow, error) {
 	escapedName := punctuationReplace.Replace(blanks(rawName))
 	name := title(escapedName)
 	if debug {
-		fmt.Fprintf(os.Stdout, "rawName: %s\n", rawName)
-		fmt.Fprintf(os.Stdout, "escapedName: %s\n", escapedName)
-		fmt.Fprintf(os.Stdout, "name: %s\n", name)
+		fmt.Printf("rawName: %s\n", rawName)
+		fmt.Printf("escapedName: %s\n", escapedName)
+		fmt.Printf("name: %s\n", name)
 	}
 
 	season := findGroup[3][:1]
@@ -196,7 +195,7 @@ func threeGroupsCamelCase(filename, regex string) (*TvShow, error) {
 	r := regexp.MustCompile(regex)
 	findGroup := r.FindStringSubmatch(filename)
 	if debug {
-		fmt.Fprintf(os.Stdout, "threeGroupsCamelCase len:%d  %s\n", len(findGroup), filename)
+		fmt.Printf("threeGroupsCamelCase len:%d  %s\n", len(findGroup), filename)
 	}
 	if len(findGroup) < 3 {
 		return nil, errors.New("not a match")
@@ -206,9 +205,9 @@ func threeGroupsCamelCase(filename, regex string) (*TvShow, error) {
 	escapedName := punctuationReplace.Replace(blanks(rawName))
 	name := title(escapedName)
 	if debug {
-		fmt.Fprintf(os.Stdout, "rawName: %s\n", rawName)
-		fmt.Fprintf(os.Stdout, "escapedName: %s\n", escapedName)
-		fmt.Fprintf(os.Stdout, "name: %s\n", name)
+		fmt.Printf("rawName: %s\n", rawName)
+		fmt.Printf("escapedName: %s\n", escapedName)
+		fmt.Printf("name: %s\n", name)
 	}
 
 	season := findGroup[3][:1]
@@ -233,7 +232,7 @@ func fiveGroups(filename, regex string) (*TvShow, error) {
 	r := regexp.MustCompile(regex)
 	findGroup := r.FindStringSubmatch(filename)
 	if debug {
-		fmt.Fprintf(os.Stdout, "fiveGroups len:%d  %s\n", len(findGroup), filename)
+		fmt.Printf("fiveGroups len:%d  %s\n", len(findGroup), filename)
 	}
 	if len(findGroup) < 6 {
 		return nil, errors.New("not a match")
@@ -243,9 +242,9 @@ func fiveGroups(filename, regex string) (*TvShow, error) {
 	escapedName := punctuationReplace.Replace(rawName)
 	name := title(escapedName)
 	if debug {
-		fmt.Fprintf(os.Stdout, "rawName: %s\n", rawName)
-		fmt.Fprintf(os.Stdout, "escapedName: %s\n", escapedName)
-		fmt.Fprintf(os.Stdout, "name: %s\n", name)
+		fmt.Printf("rawName: %s\n", rawName)
+		fmt.Printf("escapedName: %s\n", escapedName)
+		fmt.Printf("name: %s\n", name)
 	}
 
 	season := findGroup[3]
@@ -271,7 +270,7 @@ func threeGroupsFullWords(filename, regex string) (*TvShow, error) {
 	findGroup := r.FindStringSubmatch(filename)
 
 	if debug {
-		fmt.Fprintf(os.Stdout, "threeGroupsFullWords len:%d  %s\n", len(findGroup), filename)
+		fmt.Printf("threeGroupsFullWords len:%d  %s\n", len(findGroup), filename)
 	}
 	if len(findGroup) < 4 {
 		return nil, errors.New("not a match")
@@ -281,9 +280,9 @@ func threeGroupsFullWords(filename, regex string) (*TvShow, error) {
 	escapedName := punctuationReplace.Replace(rawName)
 	name := title(escapedName)
 	if debug {
-		fmt.Fprintf(os.Stdout, "rawName: %s\n", rawName)
-		fmt.Fprintf(os.Stdout, "escapedName: %s\n", escapedName)
-		fmt.Fprintf(os.Stdout, "name: %s\n", name)
+		fmt.Printf("rawName: %s\n", rawName)
+		fmt.Printf("escapedName: %s\n", escapedName)
+		fmt.Printf("name: %s\n", name)
 	}
 
 	season := findGroup[2]
