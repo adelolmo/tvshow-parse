@@ -1,8 +1,5 @@
-module github.com/adelolmo/tvshow
+module github.com/adelolmo/tvshow-parse
 
 go 1.14
 
-require (
-	github.com/christianhujer/assert v0.0.2 // indirect
-	github.com/stretchr/testify v1.5.1
-)
+require github.com/stretchr/testify v1.5.1

@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/adelolmo/tvshow/tvshow"
+	"github.com/adelolmo/tvshow-parse/tvshow"
 	"os"
 )
 
