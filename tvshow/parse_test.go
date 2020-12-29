@@ -2,7 +2,7 @@ package tvshow_test
 
 import (
 	"github.com/adelolmo/tvshow/tvshow"
-	"github.com/bmizerany/assert"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
