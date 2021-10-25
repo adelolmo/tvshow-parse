@@ -1,8 +1,8 @@
 Package: tvshow-parse
-Version: {{version}}
+Version: ==version==
+Architecture: ==architecture==
+Maintainer: Andoni del Olmo <andoni.delolmo@gmail.com>
+Installed-Size: ==size==
 Section: extras
 Priority: standard
-Architecture: {{architecture}}
-Maintainer: Andoni del Olmo <andoni.delolmo@gmail.com>
-Installed-Size: {{size}}
 Description: Parse tv show filenames

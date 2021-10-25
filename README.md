@@ -1,18 +1,35 @@
 # tvshow-parse
 Parse tv show filenames
 
-# How to Install
+## Build
+The build process supports cross-platform compilation.
+To set the target architecture add the argument `ARCH` with the value when calling `make`.
+Supported architectures:
+* amd64
+* i386
+* armhf
+* arm64
 
-## Setup repository
 
-Follow the instructions [here](https://adelolmo.github.io).
+    make ARCH=armhf
 
-## Install package
-```
-# apt-get install tvshow-parse
-```
+## Install
 
-# How to Use
+### Package
+After building the package you can install it with `dpkg` command.
+
+    sudo dpkg -i tvshow-parse_1.0.0_armhf.deb
+
+### Binary only
+You can also install the binary without building the package.
+
+    sudo make install
+
+## Run
+Execute the program running the following command:
+
+    tvshow-parse
+
 There are three filters available: name, season and episode.
 
 ```

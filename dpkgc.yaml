@@ -1,0 +1,5 @@
+name: tvshow-parse
+id: github.com/adelolmo/tvshow-parse
+type: go-cli
+description: Parse tv show filenames
+author: Andoni del Olmo <andoni.delolmo@gmail.com>
