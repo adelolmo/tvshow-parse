@@ -7,6 +7,6 @@ github.com/pmezard/go-difflib/difflib
 # github.com/stretchr/testify v1.5.1
 ## explicit; go 1.13
 github.com/stretchr/testify/assert
-# gopkg.in/yaml.v2 v2.2.2
+# gopkg.in/yaml.v2 v2.2.4
 ## explicit
 gopkg.in/yaml.v2

@@ -1,4 +1,4 @@
 .idea
 .run
-*.iml
-build
+build-debian
+tvshow-parse
