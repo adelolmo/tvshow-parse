@@ -43,46 +43,61 @@ type TvShow struct {
 }
 
 func NewParser() *Parser {
-	rules := make([]rule, 10)
-	rules[0] = rule{
+	rules := make([]rule, 11)
+	i := 0
+	rules[i] = rule{
 		Regex:    `(^[0-9A-Za-z._\- ]*)(^*[Ss][0-9]{2})(^*[Ee][0-9]{2})`,
 		Function: threeGroups,
 	}
-	rules[1] = rule{
+	i++
+	rules[i] = rule{
 		Regex:    `(^[0-9A-Za-z_\- ]*)(^*[.][0-9]{2})(^*[x][0-9]{2})`,
 		Function: threeGroups,
 	}
-	rules[2] = rule{
+	i++
+	rules[i] = rule{
 		Regex:    `(^[A-Za-z ]*)(^*[ 0-9]{2})(^*[x][0-9]{2})`,
 		Function: threeGroups,
 	}
-	rules[3] = rule{
+	i++
+	rules[i] = rule{
 		Regex:    `(^[0-9A-Za-z_ ]*)(^*- )(^*[0-9]{1})(^*x)(^*[0-9]{2})`,
 		Function: fiveGroups,
 	}
-	rules[4] = rule{
+	i++
+	rules[i] = rule{
 		Regex:    `(^[0-9A-Za-z ]*)(^* 720 )(^*[0-9]{1})(^*x)(^*[0-9]{2})`,
 		Function: fiveGroups,
 	}
-	rules[5] = rule{
+	i++
+	rules[i] = rule{
 		Regex:    `(^[0-9A-Za-z ]*)(^* 720p )(^*[0-9]{1})(^*x)(^*[0-9]{2})`,
 		Function: fiveGroups,
 	}
-	rules[6] = rule{
+	i++
+	rules[i] = rule{
 		Regex:    `(^[0-9A-Za-z]*)(^*720p)(^*[0-9]{1})(^*x)(^*[0-9]{2})`,
 		Function: fiveGroups,
 	}
-	rules[7] = rule{
+	i++
+	rules[i] = rule{
 		Regex:    `(^[0-9A-Za-z ]*)(^*Temporada [0-9]* )(Capitulo [0-9]*$)`,
 		Function: threeGroupsFullWords,
 	}
-	rules[8] = rule{
+	i++
+	rules[i] = rule{
 		Regex:    `(^[0-9A-Za-z]*)(^*720p_)(^*[0-9]{3})`,
 		Function: threeGroupsCamelCaseQuality,
 	}
-	rules[9] = rule{
+	i++
+	rules[i] = rule{
 		Regex:    `(^[0-9A-Za-z]*)(^*_)(^*[0-9]{3})`,
 		Function: threeGroupsCamelCase,
+	}
+	i++
+	rules[i] = rule{
+		Regex:    `(\D+)(\d+)x(\d+)`,
+		Function: threeGroups,
 	}
 	return &Parser{Rules: rules}
 }
@@ -128,7 +143,10 @@ func threeGroups(filename, regex string) (*TvShow, error) {
 	if debug {
 		fmt.Printf("season: %s\n", season)
 	}
-	seasonNumber, err := strconv.Atoi(strings.Trim(season[1:], " "))
+	seasonNumber, err := strconv.Atoi(season)
+	if err != nil {
+		seasonNumber, err = strconv.Atoi(strings.Trim(season[1:], " "))
+	}
 	if debug {
 		fmt.Printf("seasonNumber: %d\n", seasonNumber)
 	}
@@ -140,7 +158,10 @@ func threeGroups(filename, regex string) (*TvShow, error) {
 	if debug {
 		fmt.Printf("episode: %s\n", episode)
 	}
-	episodeNumber, err := strconv.Atoi(episode[1:])
+	episodeNumber, err := strconv.Atoi(episode)
+	if err != nil {
+		episodeNumber, err = strconv.Atoi(episode[1:])
+	}
 	if debug {
 		fmt.Printf("episodeNumber: %d\n", episodeNumber)
 	}

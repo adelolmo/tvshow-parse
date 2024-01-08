@@ -92,12 +92,23 @@ func TestDontUpperCaseMiddleArticlesOrPrepositions(t *testing.T) {
 	assert.Equal(t, 1, show.Episode)
 }
 
-func TestOneDigitSeason(t *testing.T) {
+func TestOneDigitSeasonDashSeparator(t *testing.T) {
 	parser := tvshow.NewParser()
 	show, _ := parser.FromFilename("el ministerio del tiempo - 2x11")
 	assert.Equal(t, "El Ministerio del Tiempo", show.Name)
 	assert.Equal(t, 2, show.Season)
 	assert.Equal(t, 11, show.Episode)
+}
+
+func TestOneDigitSeason(t *testing.T) {
+	parser := tvshow.NewParser()
+	show, err := parser.FromFilename("el otro lado 1x3")
+	if err != nil {
+		panic(err)
+	}
+	assert.Equal(t, "El Otro Lado", show.Name)
+	assert.Equal(t, 1, show.Season)
+	assert.Equal(t, 3, show.Episode)
 }
 
 func TestOneDigitSeasonWithFileExtension(t *testing.T) {
