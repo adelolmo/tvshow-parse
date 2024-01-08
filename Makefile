@@ -75,3 +75,7 @@ uninstall:
 
 test:
 	go test ./... -race -cover
+
+release:
+	git tag v$(VERSION)
+	git push origin v$(VERSION)
