@@ -102,7 +102,7 @@ func TestOneDigitSeasonDashSeparator(t *testing.T) {
 
 func TestOneDigitSeason(t *testing.T) {
 	parser := tvshow.NewParser()
-	show, err := parser.FromFilename("el otro lado 1x3")
+	show, err := parser.FromFilename("el  otro lado 1x3")
 	if err != nil {
 		panic(err)
 	}

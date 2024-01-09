@@ -3,6 +3,8 @@ package tvshow
 import (
 	"errors"
 	"fmt"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 	"regexp"
 	"strconv"
 	"strings"
@@ -22,7 +24,7 @@ var replace = func(word string) string {
 	case "of", "the", "on", "in", "and", "vs", "del", "el", "la", "en":
 		return word
 	}
-	return strings.Title(word)
+	return cases.Title(language.Und).String(word)
 }
 
 type ParserFunc func(string, string) (*TvShow, error)
@@ -105,6 +107,13 @@ func NewParser() *Parser {
 func (p *Parser) FromFilename(filename string) (*TvShow, error) {
 	if len(filename) == 0 {
 		return nil, errors.New("missing parameter filename")
+	}
+
+	for {
+		if !strings.Contains(filename, "  ") {
+			break
+		}
+		filename = strings.ReplaceAll(filename, "  ", " ")
 	}
 
 	for _, rule := range p.Rules {
@@ -327,5 +336,5 @@ func threeGroupsFullWords(filename, regex string) (*TvShow, error) {
 func title(name string) string {
 	rx := regexp.MustCompile(`\w+`)
 	title := rx.ReplaceAllStringFunc(name, replace)
-	return strings.Title(title[0:1]) + strings.TrimSpace(title[1:])
+	return cases.Title(language.Und).String(title[0:1]) + strings.TrimSpace(title[1:])
 }
