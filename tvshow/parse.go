@@ -18,6 +18,8 @@ var punctuationReplace = strings.NewReplacer(".", " ",
 
 var replace = func(word string) string {
 	switch word {
+	case "DCs":
+		return "DCs"
 	case "Of", "The", "On", "In", "And", "Vs", "Del", "El", "La", "En":
 		return strings.ToLower(word)
 
